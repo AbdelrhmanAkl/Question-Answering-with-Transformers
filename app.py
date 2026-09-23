@@ -160,7 +160,6 @@ st.markdown(
         <div class="hero-title">
             Question Answering with Transformers
         </div>
-
         <div class="hero-subtitle">
             Extractive Question Answering powered by DistilBERT,
             fine-tuned on SQuAD v1.1. The model identifies answer
