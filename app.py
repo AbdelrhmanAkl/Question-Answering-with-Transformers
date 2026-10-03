@@ -347,7 +347,6 @@ with st.sidebar:
         <div class="sidebar-title">
             AI Question Answering
         </div>
-
         <div class="sidebar-description">
             Extractive Question Answering powered by a
             fine-tuned DistilBERT Transformer.
@@ -364,22 +363,18 @@ with st.sidebar:
             <div class="sidebar-label">Model</div>
             <div class="sidebar-value">{html.escape(MODEL_ID)}</div>
         </div>
-
         <div class="sidebar-item">
             <div class="sidebar-label">Architecture</div>
             <div class="sidebar-value">{html.escape(str(model_info["model_class"]))}</div>
         </div>
-
         <div class="sidebar-item">
             <div class="sidebar-label">Tokenizer</div>
             <div class="sidebar-value">{html.escape(str(model_info["tokenizer_class"]))}</div>
         </div>
-
         <div class="sidebar-item">
             <div class="sidebar-label">Parameters</div>
             <div class="sidebar-value">{model_info["parameters"]:,}</div>
         </div>
-
         <div class="sidebar-item">
             <div class="sidebar-label">Device</div>
             <div class="sidebar-value">{html.escape(str(model_info["device"]))}</div>
@@ -398,17 +393,14 @@ with st.sidebar:
             <div class="sidebar-label">Max Sequence Length</div>
             <div class="sidebar-value">{model_info["max_length"]}</div>
         </div>
-
         <div class="sidebar-item">
             <div class="sidebar-label">Document Stride</div>
             <div class="sidebar-value">{model_info["doc_stride"]}</div>
         </div>
-
         <div class="sidebar-item">
             <div class="sidebar-label">N-Best Candidates</div>
             <div class="sidebar-value">{model_info["n_best"]}</div>
         </div>
-
         <div class="sidebar-item">
             <div class="sidebar-label">Max Answer Length</div>
             <div class="sidebar-value">{model_info["max_answer_length"]}</div>
@@ -432,28 +424,23 @@ with st.sidebar:
 st.markdown(
     """
     <div class="hero">
-
         <div class="hero-badge">
             NLP · TRANSFORMER · EXTRACTIVE QA
         </div>
-
         <div class="hero-title">
             AI Question Answering
         </div>
-
         <div class="hero-description">
             Ask questions about a passage and let a fine-tuned
             DistilBERT Transformer identify the most relevant
             answer span directly from the provided context.
         </div>
-
         <div>
             <span class="tag">DistilBERT</span>
             <span class="tag">SQuAD v1.1</span>
             <span class="tag">Transformers</span>
             <span class="tag">Extractive QA</span>
         </div>
-
     </div>
     """,
     unsafe_allow_html=True,
@@ -615,15 +602,12 @@ if run_inference:
     st.markdown(
         f"""
         <div class="answer-card">
-
             <div class="answer-label">
                 Extracted Answer
             </div>
-
             <div class="answer-text">
                 {safe_answer}
             </div>
-
         </div>
         """,
         unsafe_allow_html=True,
@@ -766,16 +750,13 @@ with architecture_col1:
     st.markdown(
         """
         <div class="info-card">
-
             <div class="info-title">
                 1. Tokenization
             </div>
-
             <div class="info-text">
                 The question and context are tokenized while
                 preserving offset mappings for answer reconstruction.
             </div>
-
         </div>
         """,
         unsafe_allow_html=True,
@@ -787,16 +768,13 @@ with architecture_col2:
     st.markdown(
         """
         <div class="info-card">
-
             <div class="info-title">
                 2. Transformer QA
             </div>
-
             <div class="info-text">
                 DistilBERT predicts the start and end positions
                 of the answer span inside the context.
             </div>
-
         </div>
         """,
         unsafe_allow_html=True,
@@ -808,16 +786,13 @@ with architecture_col3:
     st.markdown(
         """
         <div class="info-card">
-
             <div class="info-title">
                 3. Span Selection
             </div>
-
             <div class="info-text">
                 Multiple candidate spans are evaluated and the
                 highest-scoring valid answer span is selected.
             </div>
-
         </div>
         """,
         unsafe_allow_html=True,
