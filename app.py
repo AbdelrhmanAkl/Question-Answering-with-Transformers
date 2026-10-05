@@ -10,10 +10,10 @@ from src.qa_inference import QuestionAnsweringEngine
 # ============================================================
 
 st.set_page_config(
-    page_title="AI Question Answering",
-    page_icon="💬",
-    layout="wide",
-    initial_sidebar_state="expanded",
+    page_title="Ask Your Text",
+    page_icon="🔎",
+    layout="centered",
+    initial_sidebar_state="collapsed",
 )
 
 
@@ -105,24 +105,22 @@ st.markdown(
     """
     <style>
 
-    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap');
 
     :root {
-        --ink: #0f1b2d;
-        --muted: #5b6b7f;
-        --soft: #8a98aa;
-        --line: #e3eaf2;
-        --mist: #f5f8fc;
-        --surface: #ffffff;
-        --accent: #4361ee;
-        --accent-hover: #3550d6;
-        --accent-tint: #eaf0ff;
-        --mint: #12b886;
-        --mint-tint: #e6faf3;
-        --marker: #ffe97a;
-        --marker-soft: #fff6bf;
-        --font-display: 'Bricolage Grotesque', 'Manrope', sans-serif;
-        --font-body: 'Manrope', -apple-system, 'Segoe UI', sans-serif;
+        --paper: #faf6ef;
+        --surface: #fffdf9;
+        --ink: #2f2a24;
+        --muted: #756c60;
+        --soft: #a1978a;
+        --line: #ebe3d6;
+        --accent: #3f7a69;
+        --accent-hover: #346756;
+        --accent-tint: #e6f0eb;
+        --marker: #ffe08a;
+        --marker-soft: #fff1c4;
+        --font-display: 'Fraunces', Georgia, serif;
+        --font-body: 'Nunito Sans', -apple-system, 'Segoe UI', sans-serif;
     }
 
     /* ---------- Base ---------- */
@@ -135,10 +133,10 @@ st.markdown(
     }
 
     .stApp {
-        background-color: var(--mist);
-        background-image:
-            radial-gradient(900px 420px at 85% -80px, #e4ecff 0%, rgba(228, 236, 255, 0) 70%),
-            radial-gradient(700px 380px at -10% 0px, #e3f8f1 0%, rgba(227, 248, 241, 0) 70%);
+        background-color: var(--paper);
+        background-image: radial-gradient(
+            800px 360px at 50% -120px, #fdeccd 0%, rgba(253, 236, 205, 0) 70%
+        );
         background-repeat: no-repeat;
         color: var(--ink);
     }
@@ -148,82 +146,39 @@ st.markdown(
     }
 
     .main .block-container {
-        max-width: 1120px;
-        padding-top: 2.2rem;
+        max-width: 780px;
+        padding-top: 2.6rem;
         padding-bottom: 3rem;
     }
 
     hr {
         border-color: var(--line) !important;
-        margin: 1.8rem 0 !important;
     }
 
     /* ---------- Sidebar ---------- */
 
     section[data-testid="stSidebar"] {
-        background-color: #fbfcfe;
+        background-color: var(--surface);
         border-right: 1px solid var(--line);
     }
 
-    section[data-testid="stSidebar"] > div {
-        padding-top: 0.5rem;
-    }
-
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 8px;
-    }
-
-    .brand-mark {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        background: var(--accent);
-        color: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-display);
-        font-weight: 800;
-        font-size: 16px;
-        box-shadow: 0 6px 16px rgba(67, 97, 238, 0.28);
-    }
-
-    .brand-name {
+    .side-title {
         font-family: var(--font-display);
         font-size: 18px;
         font-weight: 700;
         color: var(--ink);
-        line-height: 1.2;
+        margin-bottom: 4px;
     }
 
-    .brand-sub {
+    .side-text {
         color: var(--muted);
         font-size: 13px;
         line-height: 1.6;
-        margin-bottom: 22px;
-    }
-
-    .side-heading {
-        font-family: var(--font-display);
-        color: var(--ink);
-        font-size: 15px;
-        font-weight: 700;
-        margin: 4px 0 10px 0;
-    }
-
-    .side-card {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 4px 14px;
-        margin-bottom: 18px;
+        margin-bottom: 14px;
     }
 
     .side-row {
-        padding: 10px 0;
+        padding: 9px 0;
         border-bottom: 1px solid var(--line);
     }
 
@@ -245,190 +200,52 @@ st.markdown(
         word-break: break-word;
     }
 
-    .side-note {
-        color: var(--muted);
-        font-size: 12.5px;
-        line-height: 1.65;
-        background: var(--accent-tint);
-        border-radius: 12px;
-        padding: 12px 14px;
+    /* ---------- Header ---------- */
+
+    .page-head {
+        text-align: center;
+        margin-bottom: 26px;
     }
 
-    /* ---------- Hero ---------- */
-
-    .hero {
-        display: grid;
-        grid-template-columns: 1.25fr 1fr;
-        gap: 32px;
-        align-items: center;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 28px;
-        padding: 38px 40px;
-        margin-bottom: 18px;
-        box-shadow: 0 18px 48px rgba(31, 52, 99, 0.07);
-    }
-
-    .hero-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--accent-tint);
-        color: var(--accent);
-        padding: 6px 14px;
-        border-radius: 999px;
-        font-size: 13px;
-        font-weight: 700;
-        margin-bottom: 16px;
-    }
-
-    .hero-pill i {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--accent);
-        display: inline-block;
-    }
-
-    .hero-title {
+    .page-title {
         font-family: var(--font-display);
         color: var(--ink);
-        font-size: 46px;
-        font-weight: 800;
-        line-height: 1.08;
-        letter-spacing: -0.02em;
+        font-size: 42px;
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
         margin: 0;
     }
 
-    .hero-description {
+    .page-sub {
         color: var(--muted);
-        font-size: 16.5px;
-        line-height: 1.7;
-        margin-top: 14px;
+        font-size: 17px;
+        line-height: 1.6;
+        margin: 10px auto 0 auto;
         max-width: 520px;
     }
 
-    .tags {
-        margin-top: 20px;
-    }
+    /* ---------- Steps hint ---------- */
 
-    .tag {
-        display: inline-block;
-        background: var(--mist);
-        border: 1px solid var(--line);
-        color: #3d4c63;
-        padding: 6px 13px;
-        border-radius: 999px;
-        font-size: 12.5px;
-        font-weight: 600;
-        margin: 0 6px 8px 0;
-    }
-
-    /* Hero demo card: shows what the app does */
-
-    .demo {
-        background: var(--mist);
-        border: 1px solid var(--line);
-        border-radius: 20px;
-        padding: 22px;
-    }
-
-    .demo-q {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 14px 14px 14px 4px;
-        padding: 12px 15px;
-        color: var(--ink);
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 1.5;
-        margin-bottom: 12px;
-    }
-
-    .demo-ctx {
-        color: #3d4c63;
-        font-size: 14px;
-        line-height: 1.85;
-        padding: 4px 4px 0 4px;
-    }
-
-    .demo-ctx mark {
-        background: var(--marker);
-        color: var(--ink);
-        padding: 2px 6px;
-        border-radius: 6px;
-        font-weight: 700;
-    }
-
-    .demo-foot {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 14px;
-        color: var(--muted);
-        font-size: 12.5px;
-        font-weight: 600;
-    }
-
-    .demo-foot i {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--mint);
-        display: inline-block;
-    }
-
-    /* ---------- Status ---------- */
-
-    .status-card {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: var(--mint-tint);
-        border: 1px solid #c4eddf;
-        border-radius: 999px;
-        padding: 8px 16px;
-        margin-bottom: 8px;
-        color: #0b7d5c;
-        font-size: 13.5px;
-        font-weight: 600;
-    }
-
-    .status-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--mint);
-        box-shadow: 0 0 0 4px rgba(18, 184, 134, 0.18);
-        display: inline-block;
-    }
-
-    /* ---------- Sections ---------- */
-
-    .section-title {
+    .field-title {
         font-family: var(--font-display);
         color: var(--ink);
-        font-size: 24px;
+        font-size: 18px;
         font-weight: 700;
-        letter-spacing: -0.01em;
-        margin-top: 22px;
-        margin-bottom: 4px;
+        margin: 6px 0 2px 0;
     }
 
-    .section-description {
+    .field-hint {
         color: var(--muted);
-        font-size: 15px;
-        line-height: 1.6;
-        margin-bottom: 14px;
+        font-size: 14px;
+        margin-bottom: 8px;
     }
 
     /* ---------- Inputs ---------- */
 
-    div[data-testid="stTextArea"] label p,
-    div[data-testid="stTextInput"] label p {
-        color: var(--ink);
-        font-weight: 700;
-        font-size: 14px;
+    div[data-testid="stTextArea"] label,
+    div[data-testid="stTextInput"] label {
+        display: none;
     }
 
     div[data-baseweb="textarea"],
@@ -442,7 +259,7 @@ st.markdown(
     div[data-baseweb="textarea"]:focus-within,
     div[data-baseweb="base-input"]:focus-within {
         border-color: var(--accent) !important;
-        box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.12) !important;
+        box-shadow: 0 0 0 4px rgba(63, 122, 105, 0.14) !important;
     }
 
     div[data-testid="stTextArea"] textarea {
@@ -464,186 +281,124 @@ st.markdown(
         background-color: var(--surface);
         border: 1px solid var(--line);
         border-radius: 12px;
-        min-height: 46px;
+        min-height: 44px;
         font-weight: 600;
         color: var(--ink);
     }
 
+    div[data-testid="stForm"] {
+        border: none;
+        padding: 0;
+        background: transparent;
+    }
+
     /* ---------- Buttons ---------- */
 
-    div.stButton > button {
-        min-height: 46px;
+    div.stButton > button,
+    div[data-testid="stFormSubmitButton"] > button {
+        min-height: 44px;
         border-radius: 12px;
         font-weight: 700;
         font-size: 15px;
-        transition: background-color 0.15s ease, box-shadow 0.15s ease,
-                    transform 0.15s ease;
+        transition: background-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    div.stButton > button[kind="secondary"],
-    div.stButton > button[data-testid="stBaseButton-secondary"] {
+    button[kind="secondary"],
+    button[data-testid="stBaseButton-secondary"] {
         background-color: var(--surface);
         border: 1px solid var(--line);
-        color: var(--ink);
+        color: var(--muted);
     }
 
-    div.stButton > button[kind="secondary"]:hover,
-    div.stButton > button[data-testid="stBaseButton-secondary"]:hover {
+    button[kind="secondary"]:hover,
+    button[data-testid="stBaseButton-secondary"]:hover {
         border-color: var(--accent);
         color: var(--accent);
         background-color: var(--accent-tint);
     }
 
-    div.stButton > button[kind="primary"],
-    div.stButton > button[data-testid="stBaseButton-primary"] {
+    button[kind^="primary"],
+    button[data-testid^="stBaseButton-primary"] {
         background-color: var(--accent);
         border: 1px solid var(--accent);
         color: #ffffff;
         min-height: 52px;
         font-size: 16px;
-        box-shadow: 0 10px 24px rgba(67, 97, 238, 0.28);
+        box-shadow: 0 8px 20px rgba(63, 122, 105, 0.25);
     }
 
-    div.stButton > button[kind="primary"]:hover,
-    div.stButton > button[data-testid="stBaseButton-primary"]:hover {
+    button[kind^="primary"]:hover,
+    button[data-testid^="stBaseButton-primary"]:hover {
         background-color: var(--accent-hover);
         border-color: var(--accent-hover);
         color: #ffffff;
-        transform: translateY(-1px);
     }
 
-    /* ---------- Answer ---------- */
+    /* ---------- Result ---------- */
 
-    .answer-card {
-        display: flex;
-        align-items: center;
-        gap: 18px;
+    .result-card {
         background: var(--surface);
         border: 1px solid var(--line);
         border-radius: 22px;
-        padding: 26px 28px;
-        margin-top: 10px;
-        margin-bottom: 22px;
-        box-shadow: 0 16px 40px rgba(31, 52, 99, 0.07);
+        padding: 28px 30px;
+        margin-top: 8px;
+        box-shadow: 0 14px 36px rgba(95, 70, 30, 0.08);
     }
 
-    .answer-icon {
-        flex: 0 0 auto;
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
-        background: var(--mint-tint);
-        color: var(--mint);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        font-weight: 800;
-    }
-
-    .answer-label {
+    .result-label {
         color: var(--muted);
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
     }
 
-    .answer-text {
+    .result-answer {
         font-family: var(--font-display);
         color: var(--ink);
-        font-size: 30px;
+        font-size: 34px;
         font-weight: 700;
-        line-height: 1.3;
-        letter-spacing: -0.01em;
-        background-image: linear-gradient(transparent 62%, var(--marker) 62%);
-        display: inline;
+        line-height: 1.35;
+        background-image: linear-gradient(transparent 60%, var(--marker) 60%);
         padding: 0 4px;
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
     }
 
-    /* ---------- Highlighted context ---------- */
+    .result-divider {
+        height: 1px;
+        background: var(--line);
+        margin: 22px 0 18px 0;
+    }
 
-    .context-box {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 22px 26px;
-        color: #33425a;
+    .result-context {
+        color: #4a433a;
         font-size: 16.5px;
         line-height: 1.95;
         white-space: pre-wrap;
         word-break: break-word;
     }
 
-    .context-box mark {
+    .result-context mark {
         background: var(--marker);
         color: var(--ink);
-        padding: 3px 7px;
-        border-radius: 7px;
+        padding: 2px 6px;
+        border-radius: 6px;
         font-weight: 700;
     }
 
-    /* ---------- Metrics ---------- */
-
-    .metric-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-    }
-
-    .metric {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        padding: 18px 20px;
-    }
-
-    .metric-label {
-        color: var(--muted);
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 6px;
-    }
-
-    .metric-value {
-        font-family: var(--font-display);
-        color: var(--ink);
-        font-size: 30px;
-        font-weight: 700;
-        line-height: 1.1;
-    }
-
-    .metric-value small {
-        font-size: 16px;
-        color: var(--soft);
-        font-weight: 600;
-        margin-left: 3px;
-    }
-
-    .metric.is-accent {
-        background: var(--accent-tint);
-        border-color: #d3deff;
-    }
-
-    .metric.is-accent .metric-value {
-        color: var(--accent);
-    }
-
-    .caption {
+    .result-meta {
+        margin-top: 16px;
         color: var(--soft);
         font-size: 13px;
-        margin-top: 12px;
-        line-height: 1.6;
     }
 
-    /* ---------- Expander ---------- */
+    /* ---------- Expanders ---------- */
 
     div[data-testid="stExpander"] {
         background: var(--surface);
         border: 1px solid var(--line) !important;
         border-radius: 14px !important;
-        margin-top: 10px;
+        margin-top: 14px;
     }
 
     div[data-testid="stExpander"] summary p {
@@ -651,43 +406,15 @@ st.markdown(
         color: var(--ink);
     }
 
-    /* ---------- How it works ---------- */
-
-    .step-card {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 22px;
-        min-height: 164px;
-    }
-
-    .step-num {
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
-        background: var(--accent-tint);
-        color: var(--accent);
-        font-family: var(--font-display);
-        font-weight: 800;
-        font-size: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 14px;
-    }
-
-    .step-title {
-        font-family: var(--font-display);
-        color: var(--ink);
-        font-size: 17px;
-        font-weight: 700;
-        margin-bottom: 6px;
-    }
-
-    .step-text {
+    .step-line {
         color: var(--muted);
-        font-size: 14px;
-        line-height: 1.7;
+        font-size: 14.5px;
+        line-height: 1.75;
+        margin-bottom: 8px;
+    }
+
+    .step-line b {
+        color: var(--ink);
     }
 
     /* ---------- Footer ---------- */
@@ -696,43 +423,23 @@ st.markdown(
         text-align: center;
         color: var(--soft);
         font-size: 13px;
-        margin-top: 44px;
-        padding-top: 18px;
-        border-top: 1px solid var(--line);
-        line-height: 1.8;
-    }
-
-    /* ---------- Mobile ---------- */
-
-    @media (max-width: 900px) {
-        .hero {
-            grid-template-columns: 1fr;
-            padding: 26px 22px;
-            gap: 22px;
-        }
-        .metric-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
+        margin-top: 36px;
     }
 
     @media (max-width: 768px) {
         .main .block-container {
             padding-left: 1rem;
             padding-right: 1rem;
-            padding-top: 1rem;
+            padding-top: 1.2rem;
         }
-        .hero-title {
-            font-size: 34px;
+        .page-title {
+            font-size: 32px;
         }
-        .answer-card {
-            padding: 20px 18px;
+        .result-card {
+            padding: 22px 20px;
         }
-        .answer-text {
-            font-size: 24px;
-        }
-        .step-card {
-            min-height: auto;
-            margin-bottom: 10px;
+        .result-answer {
+            font-size: 26px;
         }
     }
 
@@ -746,7 +453,7 @@ st.markdown(
 # Model Loading
 # ============================================================
 
-@st.cache_resource(show_spinner="Loading Question Answering model...")
+@st.cache_resource(show_spinner="Getting things ready...")
 def load_engine() -> QuestionAnsweringEngine:
 
     return QuestionAnsweringEngine(
@@ -764,9 +471,9 @@ try:
 
 except Exception as exc:
 
-    st.error("Failed to load the Question Answering model.")
+    st.error("The model could not be loaded. Please refresh the page.")
 
-    with st.expander("Technical Details"):
+    with st.expander("Technical details"):
         st.exception(exc)
 
     st.stop()
@@ -800,7 +507,7 @@ def highlight_answer(text: str, start: int, end: int) -> str:
     )
 
 
-def sidebar_row(label: str, value: str) -> str:
+def sidebar_row(label: str, value) -> str:
     return (
         '<div class="side-row">'
         f'<div class="side-label">{html.escape(label)}</div>'
@@ -809,105 +516,47 @@ def sidebar_row(label: str, value: str) -> str:
     )
 
 
-def metric_card(label: str, value: str, unit: str = "", accent: bool = False) -> str:
-    extra = " is-accent" if accent else ""
-    unit_html = f"<small>{html.escape(unit)}</small>" if unit else ""
-    return (
-        f'<div class="metric{extra}">'
-        f'<div class="metric-label">{html.escape(label)}</div>'
-        f'<div class="metric-value">{html.escape(str(value))}{unit_html}</div>'
-        "</div>"
-    )
-
-
 # ============================================================
-# Sidebar
+# Sidebar (model info, hidden by default)
 # ============================================================
 
 with st.sidebar:
 
     st.markdown(
         """
-        <div class="brand">
-            <div class="brand-mark">QA</div>
-            <div class="brand-name">AI Question<br>Answering</div>
-        </div>
-        <div class="brand-sub">
-            Finds the answer to your question inside any passage,
-            using a fine-tuned DistilBERT model.
+        <div class="side-title">About this app</div>
+        <div class="side-text">
+            The model finds the answer inside your passage.
+            It does not make up new text.
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown('<div class="side-heading">Model</div>', unsafe_allow_html=True)
-
     st.markdown(
-        '<div class="side-card">'
-        + sidebar_row("Model", MODEL_ID)
+        sidebar_row("Model", MODEL_ID)
         + sidebar_row("Architecture", model_info["model_class"])
-        + sidebar_row("Tokenizer", model_info["tokenizer_class"])
         + sidebar_row("Parameters", f'{model_info["parameters"]:,}')
         + sidebar_row("Device", model_info["device"])
-        + "</div>",
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        '<div class="side-heading">Inference settings</div>',
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        '<div class="side-card">'
         + sidebar_row("Max sequence length", model_info["max_length"])
         + sidebar_row("Document stride", model_info["doc_stride"])
         + sidebar_row("N-best candidates", model_info["n_best"])
-        + sidebar_row("Max answer length", model_info["max_answer_length"])
-        + "</div>",
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <div class="side-note">
-            The model extracts answer spans directly from the provided
-            context. No separate generative LLM is used.
-        </div>
-        """,
+        + sidebar_row("Max answer length", model_info["max_answer_length"]),
         unsafe_allow_html=True,
     )
 
 
 # ============================================================
-# Hero Section
+# Header
 # ============================================================
 
 st.markdown(
     """
-    <div class="hero">
-        <div>
-            <div class="hero-pill"><i></i>Extractive question answering</div>
-            <div class="hero-title">Ask your text,<br>get the exact answer.</div>
-            <div class="hero-description">
-                Paste a passage, ask a question, and a fine-tuned DistilBERT
-                Transformer highlights the answer right where it appears.
-            </div>
-            <div class="tags">
-                <span class="tag">DistilBERT</span>
-                <span class="tag">SQuAD v1.1</span>
-                <span class="tag">Transformers</span>
-                <span class="tag">PyTorch</span>
-            </div>
-        </div>
-        <div class="demo">
-            <div class="demo-q">Where was the Eiffel Tower completed?</div>
-            <div class="demo-ctx">
-                The Eiffel Tower is a wrought-iron lattice tower on the
-                Champ de Mars in <mark>Paris, France</mark>. It was completed
-                in 1889 for the World's Fair.
-            </div>
-            <div class="demo-foot"><i></i>Answer found in the passage</div>
+    <div class="page-head">
+        <div class="page-title">Ask your text</div>
+        <div class="page-sub">
+            Paste a passage, ask a question, and get the answer
+            highlighted right where it appears.
         </div>
     </div>
     """,
@@ -916,91 +565,68 @@ st.markdown(
 
 
 # ============================================================
-# Model Status
+# Examples
 # ============================================================
 
-st.markdown(
-    f"""
-    <div class="status-card">
-        <span class="status-dot"></span>
-        Model ready on {html.escape(str(model_info["device"]))}
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+ex_col1, ex_col2 = st.columns([4, 1])
 
-
-# ============================================================
-# Input Section
-# ============================================================
-
-st.markdown(
-    '<div class="section-title">Ask a question</div>',
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    """
-    <div class="section-description">
-        Pick an example or write your own passage and question.
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-example_col1, example_col2, example_col3 = st.columns([3, 1, 1])
-
-with example_col1:
+with ex_col1:
 
     st.selectbox(
-        "Example",
+        "Try an example",
         options=list(EXAMPLES.keys()),
         key="example_choice",
         label_visibility="collapsed",
         on_change=load_selected_example,
     )
 
-with example_col2:
+with ex_col2:
 
-    st.button(
-        "Load example",
-        use_container_width=True,
-        on_click=load_selected_example,
+    st.button("Clear", use_container_width=True, on_click=clear_inputs)
+
+
+# ============================================================
+# Input Form (press Enter in the question box to submit)
+# ============================================================
+
+with st.form("qa_form"):
+
+    st.markdown(
+        """
+        <div class="field-title">1. Your passage</div>
+        <div class="field-hint">Paste the text that contains the answer.</div>
+        """,
+        unsafe_allow_html=True,
     )
 
-with example_col3:
-
-    st.button(
-        "Clear",
-        use_container_width=True,
-        on_click=clear_inputs,
+    context = st.text_area(
+        "Passage",
+        key="context",
+        height=200,
+        placeholder="Paste or type your text here...",
+        label_visibility="collapsed",
     )
 
+    st.markdown(
+        """
+        <div class="field-title">2. Your question</div>
+        <div class="field-hint">Ask something the passage can answer.</div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-context = st.text_area(
-    "Passage",
-    key="context",
-    height=230,
-    placeholder="Paste the passage that contains the answer...",
-    help="The answer should be contained inside this passage.",
-)
+    question = st.text_input(
+        "Question",
+        key="question",
+        placeholder="Type your question here...",
+        label_visibility="collapsed",
+    )
 
-
-question = st.text_input(
-    "Question",
-    key="question",
-    placeholder="Ask a question about the passage...",
-    help="Ask a question that can be answered directly from the passage.",
-)
-
-
-st.write("")
-
-run_inference = st.button(
-    "Find the answer",
-    type="primary",
-    use_container_width=True,
-)
+    run_inference = st.form_submit_button(
+        "Find the answer",
+        type="primary",
+        use_container_width=True,
+    )
 
 
 # ============================================================
@@ -1011,17 +637,17 @@ if run_inference:
 
     if not context.strip():
 
-        st.warning("Add a passage first, then run again.")
+        st.warning("Add a passage first, then try again.")
 
     elif not question.strip():
 
-        st.warning("Type a question first, then run again.")
+        st.warning("Type a question first, then try again.")
 
     else:
 
         result = None
 
-        with st.spinner("Finding the best answer..."):
+        with st.spinner("Searching your text..."):
 
             try:
 
@@ -1032,52 +658,23 @@ if run_inference:
 
             except Exception as exc:
 
-                st.error("Something went wrong while answering.")
+                st.error("Something went wrong while searching. Please try again.")
 
-                with st.expander("Technical Details"):
+                with st.expander("Technical details"):
                     st.exception(exc)
 
         if result is not None:
 
-            st.divider()
-
-            st.markdown(
-                '<div class="section-title">Answer</div>',
-                unsafe_allow_html=True,
-            )
+            st.write("")
 
             if not result["answer"]:
 
                 st.warning(
                     "No answer was found in this passage. "
-                    "Try rephrasing the question or adding more context."
+                    "Try rephrasing the question or adding more text."
                 )
 
             else:
-
-                safe_answer = html.escape(str(result["answer"]))
-
-                st.markdown(
-                    f"""
-                    <div class="answer-card">
-                        <div class="answer-icon">✓</div>
-                        <div>
-                            <div class="answer-label">Extracted answer</div>
-                            <div class="answer-text">{safe_answer}</div>
-                        </div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-
-                # ------------------------------------------------
-                # Answer highlighted inside the context
-                # ------------------------------------------------
-
-                st.markdown(
-                    '<div class="section-title">Answer in context</div>',
-                    unsafe_allow_html=True,
-                )
 
                 highlighted = highlight_answer(
                     context,
@@ -1086,82 +683,39 @@ if run_inference:
                 )
 
                 st.markdown(
-                    f'<div class="context-box">{highlighted}</div>',
-                    unsafe_allow_html=True,
-                )
-
-                # ------------------------------------------------
-                # Inference metrics
-                # ------------------------------------------------
-
-                st.markdown(
-                    '<div class="section-title">Inference details</div>',
-                    unsafe_allow_html=True,
-                )
-
-                st.markdown(
-                    '<div class="metric-grid">'
-                    + metric_card("Features", result["num_features"])
-                    + metric_card("Candidates", result["num_candidates"])
-                    + metric_card("Selected feature", result["feature_index"])
-                    + metric_card(
-                        "Latency",
-                        f"{result['inference_time']:.3f}",
-                        unit="s",
-                        accent=True,
-                    )
-                    + "</div>",
-                    unsafe_allow_html=True,
-                )
-
-                st.markdown(
-                    """
-                    <div class="caption">
-                        Latency includes preprocessing, sliding-window
-                        construction, model inference, and answer-span selection.
+                    f"""
+                    <div class="result-card">
+                        <div class="result-label">Answer</div>
+                        <div class="result-answer">{html.escape(str(result["answer"]))}</div>
+                        <div class="result-divider"></div>
+                        <div class="result-label">Found in your text</div>
+                        <div class="result-context">{highlighted}</div>
+                        <div class="result-meta">
+                            Answered in {result["inference_time"]:.2f} seconds
+                        </div>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
 
-                # ------------------------------------------------
-                # Technical details
-                # ------------------------------------------------
+                with st.expander("Technical details"):
 
-                with st.expander("Technical Details"):
+                    col1, col2 = st.columns(2)
 
-                    detail_col1, detail_col2 = st.columns(2)
+                    with col1:
+                        st.write(f"**Character start:** `{result['start_char']}`")
+                        st.write(f"**Character end:** `{result['end_char']}`")
+                        st.write(f"**Raw span score:** `{result['score']:.4f}`")
 
-                    with detail_col1:
+                    with col2:
+                        st.write(f"**Features:** `{result['num_features']}`")
+                        st.write(f"**Candidates:** `{result['num_candidates']}`")
+                        st.write(f"**Selected feature:** `{result['feature_index']}`")
 
-                        st.write(
-                            f"**Character start:** `{result['start_char']}`"
-                        )
-                        st.write(
-                            f"**Character end:** `{result['end_char']}`"
-                        )
-                        st.write(
-                            f"**Selected feature:** `{result['feature_index']}`"
-                        )
-
-                    with detail_col2:
-
-                        st.write(
-                            f"**Total features:** `{result['num_features']}`"
-                        )
-                        st.write(
-                            f"**Generated candidates:** "
-                            f"`{result['num_candidates']}`"
-                        )
-                        st.write(
-                            f"**Raw span score:** `{result['score']:.4f}`"
-                        )
-
-                    st.info(
-                        "The raw span score is the sum of the predicted "
-                        "start and end logits. It is not a calibrated "
-                        "probability and should not be interpreted as "
-                        "model confidence."
+                    st.caption(
+                        "The raw span score is the sum of the start and end "
+                        "logits. It is not a probability and should not be "
+                        "read as model confidence."
                     )
 
 
@@ -1169,68 +723,21 @@ if run_inference:
 # How It Works
 # ============================================================
 
-st.divider()
-
-st.markdown(
-    '<div class="section-title">How it works</div>',
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    """
-    <div class="section-description">
-        Three steps turn your passage and question into an answer.
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-
-architecture_col1, architecture_col2, architecture_col3 = st.columns(3)
-
-with architecture_col1:
+with st.expander("How does it work?"):
 
     st.markdown(
         """
-        <div class="step-card">
-            <div class="step-num">1</div>
-            <div class="step-title">Tokenization</div>
-            <div class="step-text">
-                The question and passage are split into tokens, keeping
-                offset mappings so the answer can be mapped back to the text.
-            </div>
+        <div class="step-line">
+            <b>1. Read.</b> Your question and passage are split into
+            tokens, keeping track of where each one sits in the text.
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-with architecture_col2:
-
-    st.markdown(
-        """
-        <div class="step-card">
-            <div class="step-num">2</div>
-            <div class="step-title">Transformer QA</div>
-            <div class="step-text">
-                DistilBERT predicts where the answer starts and ends
-                inside the passage.
-            </div>
+        <div class="step-line">
+            <b>2. Predict.</b> DistilBERT predicts where the answer
+            starts and ends inside the passage.
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-with architecture_col3:
-
-    st.markdown(
-        """
-        <div class="step-card">
-            <div class="step-num">3</div>
-            <div class="step-title">Span selection</div>
-            <div class="step-text">
-                Multiple candidate spans are scored and the best valid
-                one is returned as the answer.
-            </div>
+        <div class="step-line">
+            <b>3. Pick.</b> Several candidate answers are scored and the
+            best valid one is shown.
         </div>
         """,
         unsafe_allow_html=True,
@@ -1244,8 +751,7 @@ with architecture_col3:
 st.markdown(
     """
     <div class="footer">
-        DistilBERT fine-tuned on SQuAD v1.1<br>
-        Built with Transformers, PyTorch and Streamlit
+        DistilBERT fine-tuned on SQuAD v1.1
     </div>
     """,
     unsafe_allow_html=True,
